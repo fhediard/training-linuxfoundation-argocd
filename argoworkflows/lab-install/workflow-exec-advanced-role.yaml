@@ -1,0 +1,49 @@
+---
+# ─────────────────────────────────────────────
+# LEVEL 3 — Advanced: workflow spawns other workflows
+# or manages Kubernetes resources directly
+# ─────────────────────────────────────────────
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argo-workflow-advanced
+  namespace: argo-workflows
+rules:
+  # Minimum: report results back to the controller
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "patch"]
+
+  # Pod management
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "watch", "patch", "delete"]
+
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "watch"]
+
+  # Secrets and configmaps
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
+
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "create", "update"]
+
+  # Submit or manage child workflows
+  # (e.g. a workflow that triggers other workflows)
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates", "cronworkflows"]
+    verbs: ["get", "list", "create", "update", "patch", "delete"]
+
+  # Deploy or manage Kubernetes resources from a workflow step
+  # (e.g. a workflow that creates a Deployment or Job)
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets"]
+    verbs: ["get", "list", "create", "update", "patch", "delete"]
+
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "create", "update", "patch", "delete"]

@@ -1,0 +1,18 @@
+---
+# ─────────────────────────────────────────────
+# LEVEL 1 — Absolute minimum (emissary executor)
+# Required for ANY workflow pod to report results
+# back to the controller
+# ─────────────────────────────────────────────
+#!!! CREATED BY DEFAULT BY THE HELM CHART !!!
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argo-workflows-workflow
+  namespace: argo-workflows
+rules:
+  # Required by the emissary executor to report
+  # step outputs and status back to the controller
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "patch"]

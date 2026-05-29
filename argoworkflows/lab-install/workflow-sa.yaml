@@ -1,0 +1,8 @@
+---
+# ServiceAccount that workflow pods will run as
+#!!! CREATED BY DEFAULT BY THE HELM CHART, IF CORRECT VALUE SET !!!
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-workflow
+  namespace: argo-workflows
